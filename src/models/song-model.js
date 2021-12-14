@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { number } = require("yargs");
 
 /**
  * 1. create the 'Song' model following the schema requirements
@@ -41,7 +42,49 @@ const mongoose = require("mongoose");
  * 1.6 set the "createdAt" and "updatedAt" properties that are created automatically
  */
 
-const SongSchema = new mongoose.Schema({});
+const SongSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      trim: true,
+      required: true,
+    },
+    genre: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    duration: {
+      type: Number,
+      required: true,
+    },
+    stats: {
+      type: Object,
+
+      default: {
+        timesPlayed: 0,
+        upVotes: 0,
+        downVotes: 0,
+      },
+      timesPlayed: {
+        type: Number,
+      },
+      upVotes: {
+        type: Number,
+      },
+      downVotes: {
+        type: Number,
+      },
+
+      author: {
+        type: mongoose.SchemaTypes.ObjectId,
+        required: true,
+        red: "user",
+      },
+    },
+  },
+  { timeStamps: true },
+);
 
 const SongModel = new mongoose.model("song", SongSchema);
 
